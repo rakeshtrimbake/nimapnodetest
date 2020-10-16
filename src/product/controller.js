@@ -12,7 +12,7 @@ const addProduct = async (req, res, next) => {
      throw errorCreate.BadRequest(`${result.productName} is already exist`);
      result.productId = await generateProductId();
      result.isActive = 1;
-     const category = await Category.findOne({categoryId:result.categoryId,isActive:1});
+     const category = await Category.findOne({categoryName:result.categoryId,isActive:1});
       if(!category) throw errorCreate.Unauthorized();
       result.categoryName = category.categoryName;
     const product = new Product(result);
@@ -74,7 +74,7 @@ const updateProduct = async (req, res, next) => {
     for (let data in req.query) {
       product[data] = req.query[data];
     }
-    const category = await Category.findOne({categoryId:product['categoryId'],isActive:1});
+    const category = await Category.findOne({categoryId:product.categoryId,isActive:1});
       if(!category) throw errorCreate.Unauthorized();
       product.categoryName = category.categoryName;
     await product.save();
