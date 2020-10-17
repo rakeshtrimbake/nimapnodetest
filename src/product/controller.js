@@ -75,7 +75,7 @@ const updateProduct = async (req, res, next) => {
       product[data] = req.query[data];
     }
     const category = await Category.findOne({categoryId:product.categoryId,isActive:1});
-      if(!category) throw errorCreate.Unauthorized();
+      if(!category) throw errorCreate.BadRequest(`category ${category.categoryName} is not active currently`);
       product.categoryName = category.categoryName;
     await product.save();
     res.send(product);
